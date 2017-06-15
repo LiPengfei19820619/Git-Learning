@@ -40,17 +40,95 @@ Git不像SVN那样有个中心服务器。每个客户端都包含了完整的�
 
 创建本地仓库有两种方式：
 * git init
+
+git init 命令创建一个新的 Git 仓库。它用来将已存在但还没有版本控制的项目转换成一个 Git 仓库，或者创建一个空的新仓库。<br>
+运行 git init 命令会在你项目的根目录下创建一个新的 .git 目录，其中包含了你项目必需的所有元数据。除了 .git 目录之外，已经存在的项目不会被改变
+```
+git init
+git init <directory>
+```
+运行这个命令会创建一个名为 directory，只包含 .git 子目录的空目录。
+
+```
+git init --bare <directory>
+```
+初始化一个裸的 Git 仓库，但是忽略工作目录。共享的仓库应该总是用 --bare 标记创建（见下面的讨论）。一般来说，用 —bare 标记初始化的仓库以 .git 结尾。比如，一个叫my-project的仓库，它的空版本应该保存在 my-project.git 目录下。
+
+裸仓库
+
+-—bare 标记创建了一个没有工作目录的仓库，这样我们在仓库中更改文件并且提交了。中央仓库应该总是创建成裸仓库，因为向非裸仓库推送分支有可能会覆盖已有的代码变动。将-—bare看成是用来将仓库标记为储存设施，而不是一个开发环境。也就是说，对于所有的 Git 工作流，中央仓库是裸仓库，开发者的本地仓库是非裸仓库。
+
+![](media/Git-bare_repo1.PNG)
+
 * git clone
 
+git clone 命令拷贝整个 Git 仓库。<br>
+clone 自动创建了一个名为 origin 的远程连接，指向原有仓库。
 
 
 ## 4.Git分支(远程分支、远程跟踪分支和本地分支)
+远程分支位于远程的仓库中。
+远程跟踪分支和本地分支位于本地的仓库。
+
+|类型|通过更新|通过发布|客户端访问|
+|---|---|---|---|
+|远程跟踪分支|git fetch, git pull |不发布|只读|
+|本地分支|git merge, git pull|git push|读写|
+
+![](media/Git-clone.png)
+
+![](media/Git-commit.png)
+
+![](media/Git-push.png)
+
+![](media/Git-fetch.png)
+
+![](media/Git-merge.png)
 
 
 ## 5.Git区域（仓库、暂存区和工作区)
+本地仓库由 git 维护的三棵“树”组成。第一个是你的 工作目录，它持有实际文件；第二个是 暂存区（Index），它像个缓存区域，临时保存你的改动；最后是 HEAD，它指向你最后一次提交的结果。
 
+![](media/Git-trees.png)
 
 ## 6.Git操作
+
+![](media/Git-Data-Transport-Commands.png)
+
+### 6.1 本地操作
+
+![](media/Git-local-1.png)
+
+![](media/Git-local-2.png)
+
+### 6.2 远程操作
+* git pull
+
+* git fetch
+
+* git merge
+
+* git rebase
+
+git pull = git fetch + git merge
+git pull --rebase = git fetch + git rebase
+
+```
+git checkout feature
+git merge master
+```
+
+![](media/Git-checkout-merge.png)
+
+### 6.3 撤销操作
+* git checkout
+
+* git reset
+
+* git revert
+
+
+### 6.4 比较差异
 
 
 ## 7.Git对象
